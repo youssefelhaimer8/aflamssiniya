@@ -1,32 +1,37 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <notifications :duration="10000" position="top left" group="errors">
+    </notifications>
+    <notifications :duration="10000" position="bottom left" group="success">
+    </notifications>
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="true"
+      :on-cancel="onCancel"
+      :is-full-page="fullPage"
+    ></loading>
+    <v-main>
+      <Nav />
+      <router-view></router-view>
+      <Footer />
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Nav from "./components/nav/navbar";
+import Footer from "./components/nav/footer";
 
-#nav {
-  padding: 30px;
-}
+export default {
+  name: "App",
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  components: {
+    Nav,
+    Footer,
+  },
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  data: () => ({
+    //
+  }),
+};
+</script>

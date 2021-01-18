@@ -1,17 +1,16 @@
 <template>
-  <v-container class=" pa-2  col-md-12 ">
-    <h3 class="p"><v-icon>mdi-access-point</v-icon> مباشر</h3>
+  <v-container class="home pa-2  col-md-12">
+    <h3 class="p"><v-icon>mdi-access-point</v-icon> مسلسل {{ title }}</h3>
     <v-container>
       <!-- <p>ads by google</p>
       <Adsense
-        class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-9225575939386535"
         data-ad-slot="8473405360"
         data-ad-format="auto"
         data-full-width-responsive="true"
-      ></Adsense> -->
-
+      >
+      </Adsense> -->
       <v-layout wrap row justify-space-around class="">
         <div v-if="!FatchData">
           <v-alert
@@ -28,7 +27,7 @@
           <Err />
         </div>
         <div v-else-if="!FatchData.length">
-          <v-layout wrap row justify-space-around class="mt-2">
+          <v-layout wrap row justify-space-around class="">
             <v-flex v-for="n in 8" :key="n">
               <v-sheet class="pa-3">
                 <v-skeleton-loader
@@ -67,6 +66,7 @@ export default {
   data() {
     return {
       FatchData: [],
+      param: this.$route.params.id,
     };
   },
   mounted() {
@@ -80,9 +80,10 @@ export default {
   destroyed() {
     if (this.googleInit) clearTimeout(this.googleInit);
   },
-  beforeMount() {
+  created() {
+    this.title = atob(this.$route.params.id);
     this.$http
-      .get("/film")
+      .get("/series/" + this.param)
 
       .then((result) => {
         this.FatchData = result.data;
